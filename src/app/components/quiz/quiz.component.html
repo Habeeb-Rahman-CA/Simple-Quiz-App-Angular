@@ -1,0 +1,33 @@
+<div  class="border w-full flex flex-col items-center h-screen justify-center">
+    <div *ngIf="!showResult; else resultTemplate">
+        <h2 class="text-5xl font-semibold pb-4">{{ questions[currentQuestionIndex].question }}</h2>
+    
+        <div class="flex gap-8 py-4">
+            <div *ngFor="let option of questions[currentQuestionIndex].options; let i = index"
+                class="cursor-pointer p-4 border rounded-md text-center transition-transform transform hover:scale-105 w-48 h-48 flex items-center justify-center text-xl"
+                [class.bg-blue-500]="selectedAnswer === i" [class.text-white]="selectedAnswer === i"
+                [class.border-blue-700]="selectedAnswer === i" [class.bg-white]="selectedAnswer !== i"
+                [class.text-black]="selectedAnswer !== i" [class.border-gray-300]="selectedAnswer !== i">
+                <label>
+                    <input type="radio" name="option" [value]="i" [(ngModel)]="selectedAnswer" class="hidden"/>
+                    {{ option }}
+                </label>
+            </div>
+        </div>
+    
+        <div class="flex flex-col items-center justify-center">
+            <p>Time Left: {{ timer }} seconds</p>
+            <div class="flex">
+                <button (click)="submitAnswer()" [disabled]="selectedAnswer === null">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <ng-template #resultTemplate>
+        <h2 class="text-5xl font-semibold pb-4">Quiz Completed!</h2>
+        <p class="text-2xl font-semibold">Your Score: {{ score }}/{{ questions.length }}</p>
+        <button (click)="restartQuiz()">Restart Quiz</button>
+    </ng-template>
+</div>
